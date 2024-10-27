@@ -4,12 +4,12 @@ import os
 from langchain_google_genai import ChatGoogleGenerativeAI
 from crewai import LLM
 from crewai.flow.flow import Flow, and_, listen, start
-from tools.custom_tool import CardioMedicalReportRAG, PulmoMedicalReportRAG, NeuroMedicalReportRAG
+from aiatl1.src.crew_methods.tools.custom_tool import CardioMedicalReportRAG, PulmoMedicalReportRAG, NeuroMedicalReportRAG
 from crewai_tools import FileWriterTool, FileReadTool	
 
 
 file_writer_tool = FileWriterTool()
-file_reader_tool = FileReadTool
+file_reader_tool = FileReadTool()
 anthropic_api_key = os.getenv('ANTHROPIC_API_KEY')
 google_api_key = os.getenv("GOOGLE_API_KEY")
 llm = LLM(

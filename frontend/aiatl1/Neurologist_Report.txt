@@ -1,5 +1,4 @@
 Neurological Medical History
-Patient: Robert Chen
 Date: 10/26/2024
 Age: 45
 Gender: Male

@@ -4,7 +4,7 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_huggingface.embeddings import HuggingFaceEmbeddings
 
 #Instantiate Context and Vector Store
-CardiologistTEXT_FILE_PATH = "Cardiologist_Report.txt"
+CardiologistTEXT_FILE_PATH = "/Users/lindsayhwang/aiatl/frontend/aiatl1/Cardiologist_Report.txt"
 with open(CardiologistTEXT_FILE_PATH, "r", encoding="utf-8") as file:
     cardiotext = file.read()
 
@@ -35,7 +35,7 @@ class CardioMedicalReportRAG(BaseTool):
     
 
 #Instantiate Context and Vector Store
-PulmonologistTEXT_FILE_PATH = "Pulmonologist_Report.txt"
+PulmonologistTEXT_FILE_PATH = "/Users/lindsayhwang/aiatl/frontend/aiatl1/Pulmonologist_Report.txt"
 with open(PulmonologistTEXT_FILE_PATH, "r", encoding="utf-8") as file:
     pulmotext = file.read()
 
@@ -66,7 +66,7 @@ class PulmoMedicalReportRAG(BaseTool):
 
 
 #Instantiate Context and Vector Store
-NeurologistTEXT_FILE_PATH = "Neurologist_Report.txt"
+NeurologistTEXT_FILE_PATH = "/Users/lindsayhwang/aiatl/frontend/aiatl1/Neurologist_Report.txt"
 with open(NeurologistTEXT_FILE_PATH, "r", encoding="utf-8") as file:
     neurotext = file.read()
 
