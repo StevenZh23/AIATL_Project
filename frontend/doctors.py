@@ -48,4 +48,4 @@ def find_doctor(user, field):
 
 
 #print(find_doctor("a","General"))
-register_doctor("a","Buzz", "szhou390@gatech.edu", "Cardiologist", "stevenzhou")
+#register_doctor("a","Buzz", "szhou390@gatech.edu", "Cardiologist", "stevenzhou")
