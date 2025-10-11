@@ -23,11 +23,6 @@ cllm = LLM(
 @CrewBase
 class Aiatl1Crew():
     """Aiatl1 crew"""
-    
-    def __init__(self):
-        # Set the correct config path
-        self.config_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "config")
-        super().__init__()
 
     @agent
     def cardiologist(self) -> Agent:
