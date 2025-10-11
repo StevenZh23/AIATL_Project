@@ -15,6 +15,12 @@ MONGODB_URI = "mongodb+srv://stevenzdragons:hALALGUYS@aiatl.zehxy.mongodb.net/?r
 
 def load_css(file_path):
     """Load CSS file from the given path"""
+    # Convert to absolute path if relative
+    if not os.path.isabs(file_path):
+        # Get the project root directory
+        project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        file_path = os.path.join(project_root, file_path)
+    
     try:
         with open(file_path) as f:
             st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
@@ -25,7 +31,12 @@ def load_css(file_path):
 def display_header():
     col1, col2 = st.columns([1, 3])
     with col1:
+        # Convert to absolute path if relative
         logo_path = "app/static/images/logo.png"
+        if not os.path.isabs(logo_path):
+            project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+            logo_path = os.path.join(project_root, logo_path)
+        
         try:
             logo = Image.open(logo_path)
             st.image(logo, width=100)
