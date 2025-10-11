@@ -10,8 +10,8 @@ from models.doctor import find_doctor
 dotenv_path = find_dotenv()
 load_dotenv(dotenv_path)
 
-PASSWORD = os.getenv("PASSWORD")
-CONNECTION_STRING = f"mongodb+srv://stevenzdragons:{PASSWORD}@aiatl.zehxy.mongodb.net/?retryWrites=true&w=majority&appName=AIAtl"
+MONGODB_URI = os.getenv("MONGODB_URI", "mongodb+srv://stevenzdragons:hALALGUYS@aiatl.zehxy.mongodb.net/?retryWrites=true&w=majority&appName=AIAtl")
+CONNECTION_STRING = MONGODB_URI
 
 client = MongoClient(CONNECTION_STRING)  # Connect to MongoDB Atlas through Steven's key
 db = client.myDatabase  # Create or get the user database

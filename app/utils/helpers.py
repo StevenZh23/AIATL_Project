@@ -10,7 +10,7 @@ from pymongo import MongoClient
 from pymongo.errors import PyMongoError
 
 load_dotenv()
-MONGODB_URI = "mongodb+srv://stevenzdragons:hALALGUYS@aiatl.zehxy.mongodb.net/?retryWrites=true&w=majority&appName=AIAtl"
+MONGODB_URI = os.getenv("MONGODB_URI", "mongodb+srv://stevenzdragons:hALALGUYS@aiatl.zehxy.mongodb.net/?retryWrites=true&w=majority&appName=AIAtl")
 
 
 def load_css(file_path):
