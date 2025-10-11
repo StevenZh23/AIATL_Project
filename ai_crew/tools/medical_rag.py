@@ -2,9 +2,13 @@ from crewai_tools import BaseTool
 from langchain_community.vectorstores import FAISS
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_huggingface.embeddings import HuggingFaceEmbeddings
+import os
+
+# Get the project root directory
+PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 #Instantiate Context and Vector Store
-CardiologistTEXT_FILE_PATH = "data/medical_reports/cardiologist_report.txt"
+CardiologistTEXT_FILE_PATH = os.path.join(PROJECT_ROOT, "data", "medical_reports", "cardiologist_report.txt")
 with open(CardiologistTEXT_FILE_PATH, "r", encoding="utf-8") as file:
     cardiotext = file.read()
 
@@ -35,7 +39,7 @@ class CardioMedicalReportRAG(BaseTool):
     
 
 #Instantiate Context and Vector Store
-PulmonologistTEXT_FILE_PATH = "data/medical_reports/pulmonologist_report.txt"
+PulmonologistTEXT_FILE_PATH = os.path.join(PROJECT_ROOT, "data", "medical_reports", "pulmonologist_report.txt")
 with open(PulmonologistTEXT_FILE_PATH, "r", encoding="utf-8") as file:
     pulmotext = file.read()
 
@@ -66,7 +70,7 @@ class PulmoMedicalReportRAG(BaseTool):
 
 
 #Instantiate Context and Vector Store
-NeurologistTEXT_FILE_PATH = "data/medical_reports/neurologist_report.txt"
+NeurologistTEXT_FILE_PATH = os.path.join(PROJECT_ROOT, "data", "medical_reports", "neurologist_report.txt")
 with open(NeurologistTEXT_FILE_PATH, "r", encoding="utf-8") as file:
     neurotext = file.read()
 

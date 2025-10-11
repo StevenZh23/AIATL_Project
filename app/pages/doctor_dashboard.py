@@ -53,7 +53,7 @@ def main():
             doctor_username=st.session_state.get('username', None)
             doctor_specialty=get_doctor_specialty(doctor_username)
             # Path to the report.txt file
-            report_path = "/Users/lindsayhwang/aiatl/frontend/report.txt"
+            report_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), "data", "analysis_outputs", "final_report.txt")
 
                 # Check if the report file exists
             if not os.path.exists(report_path):

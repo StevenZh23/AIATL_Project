@@ -23,7 +23,9 @@ def main():
     st.markdown("---")
     st.header("Patients Page")
 
-    open('/Users/lindsayhwang/aiatl/frontend/report.txt', 'w').close()
+    # Clear the report file
+    report_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), "data", "analysis_outputs", "final_report.txt")
+    open(report_path, 'w').close()
 
     if "logged_in" in st.session_state and st.session_state["logged_in"]:
         if st.session_state["role"] == "patient":
@@ -76,7 +78,7 @@ def main():
     else:
         st.warning("Please log in to access the Patients page.")
     # Specify the path to your text file
-    file_path = "/Users/lindsayhwang/aiatl/frontend/report.txt"  # Replace with the path to your text file
+    file_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), "data", "analysis_outputs", "final_report.txt")
 
     try:
         # Open the file and read its contents

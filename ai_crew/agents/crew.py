@@ -95,28 +95,33 @@ class Aiatl1Crew():
     def diagnosis_task_cardiologist(self) -> Task:
         return Task(
             config=self.tasks_config['diagnosis_task_cardiologist'],
-            output_file='cardiologist_analysis.txt',
+            output_file=os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), 'data', 'analysis_outputs', 'cardiologist_analysis.txt'),
         )
 
     @task
     def diagnosis_task_pulmonologist(self) -> Task:
         return Task(
             config=self.tasks_config['diagnosis_task_pulmonologist'],
-            output_file='pulmonologist_analysis.txt',
+            output_file=os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), 'data', 'analysis_outputs', 'pulmonologist_analysis.txt'),
         )
     
     @task
     def diagnosis_task_neurologist(self) -> Task:
         return Task(
             config=self.tasks_config['diagnosis_task_neurologist'],
-            output_file='neurologist_analysis.txt',
+            output_file=os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), 'data', 'analysis_outputs', 'neurologist_analysis.txt'),
         )
 
     @task
     def diagnosis_decision(self) -> Task:
+        analysis_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), 'data', 'analysis_outputs')
         return Task(
             config=self.tasks_config['diagnosis_decision'],
-            tools = FileReadTool(file_paths=['pulmonologist_analysis.txt', 'cardiologist_analysis.txt','neurologist_analysis.txt']),
+            tools = FileReadTool(file_paths=[
+                os.path.join(analysis_dir, 'pulmonologist_analysis.txt'), 
+                os.path.join(analysis_dir, 'cardiologist_analysis.txt'),
+                os.path.join(analysis_dir, 'neurologist_analysis.txt')
+            ]),
             respect_context_window = True,
         )
     
@@ -130,7 +135,7 @@ class Aiatl1Crew():
     def diagnosis_delivery(self) -> Task:
         return Task(
             config=self.tasks_config['diagnosis_delivery'],
-            output_file='report.txt'
+            output_file=os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), 'data', 'analysis_outputs', 'final_report.txt')
         )
 
     @crew
