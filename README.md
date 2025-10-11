@@ -1,6 +1,6 @@
 # 🧠 AIATL: AI-Assisted Triage and Learning System
 
-A real-time, multi-agent healthcare assistant built to intelligently analyze patient symptoms and route cases to the appropriate medical specialists. This system combines large language models (LLMs), a Streamlit web interface, and MongoDB for an interactive triage experience with specialist alerts and diagnostic support.
+A real-time, multi-agent healthcare assistant built to intelligently analyze patient symptoms and route cases to the appropriate medical specialists. This system combines large language models (LLMs), a Streamlit web interface, and MongoDB for an interactive triage experience with specialist alerts and diagnostic support!
 
 ---
 
