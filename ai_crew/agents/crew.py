@@ -1,23 +1,30 @@
 from crewai import Agent, Crew, Process, Task
 from crewai.project import CrewBase, agent, crew, task
 import os
-from langchain_google_genai import ChatGoogleGenerativeAI
 from crewai import LLM
-from crewai.flow.flow import Flow, and_, listen, start
 from ai_crew.tools.medical_rag import CardioMedicalReportRAG, PulmoMedicalReportRAG, NeuroMedicalReportRAG
 from crewai_tools import FileWriterTool, FileReadTool	
+from dotenv import find_dotenv, load_dotenv
 
+dotenv_path = find_dotenv()
+load_dotenv(dotenv_path)
+
+# Define the project root directory
+PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 file_writer_tool = FileWriterTool()
 file_reader_tool = FileReadTool()
 anthropic_api_key = os.getenv('ANTHROPIC_API_KEY')
 google_api_key = os.getenv("GOOGLE_API_KEY")
+
+# Create LLM with proper configuration
 llm = LLM(
-    model="gemini/gemini-1.5-flash", verbose=True, temperature=0.9, google_api_key=google_api_key
+    model="gemini/gemini-2.0-flash-lite", 
+    verbose=True, 
+    temperature=0.9, 
+    api_key=google_api_key
 )
-cllm = LLM(
-    model="anthropic/claude-3-5-sonnet-20241022", verbose=True, temperature=0.9, anthropic_api_key=anthropic_api_key
-)
+
 
 
 @CrewBase
@@ -95,26 +102,29 @@ class Aiatl1Crew():
     def diagnosis_task_cardiologist(self) -> Task:
         return Task(
             config=self.tasks_config['diagnosis_task_cardiologist'],
-            output_file=os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), 'data', 'analysis_outputs', 'cardiologist_analysis.txt'),
+            output_file=os.path.join(PROJECT_ROOT, 'data', 'analysis_outputs', 'cardiologist_analysis.txt'),
+            tools=[file_writer_tool],
         )
 
     @task
     def diagnosis_task_pulmonologist(self) -> Task:
         return Task(
             config=self.tasks_config['diagnosis_task_pulmonologist'],
-            output_file=os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), 'data', 'analysis_outputs', 'pulmonologist_analysis.txt'),
+            output_file=os.path.join(PROJECT_ROOT, 'data', 'analysis_outputs', 'pulmonologist_analysis.txt'),
+            tools=[file_writer_tool],
         )
     
     @task
     def diagnosis_task_neurologist(self) -> Task:
         return Task(
             config=self.tasks_config['diagnosis_task_neurologist'],
-            output_file=os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), 'data', 'analysis_outputs', 'neurologist_analysis.txt'),
+            output_file=os.path.join(PROJECT_ROOT, 'data', 'analysis_outputs', 'neurologist_analysis.txt'),
+            tools=[file_writer_tool],
         )
 
     @task
     def diagnosis_decision(self) -> Task:
-        analysis_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), 'data', 'analysis_outputs')
+        analysis_dir = os.path.join(PROJECT_ROOT, 'data', 'analysis_outputs')
         return Task(
             config=self.tasks_config['diagnosis_decision'],
             tools = FileReadTool(file_paths=[
@@ -135,7 +145,8 @@ class Aiatl1Crew():
     def diagnosis_delivery(self) -> Task:
         return Task(
             config=self.tasks_config['diagnosis_delivery'],
-            output_file=os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), 'data', 'analysis_outputs', 'final_report.txt')
+            output_file=os.path.join(PROJECT_ROOT, 'data', 'analysis_outputs', 'final_report.txt'),
+            tools=[file_writer_tool],
         )
 
     @crew

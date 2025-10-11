@@ -8,6 +8,14 @@ from app.utils.helpers import (
 import json
 import os
 from datetime import datetime
+import warnings
+import logging
+
+# Suppress PyTorch warnings
+warnings.filterwarnings("ignore", category=UserWarning, module="torch")
+warnings.filterwarnings("ignore", message=".*torch.classes.*")
+logging.getLogger("torch").setLevel(logging.ERROR)
+
 from streamlit_webrtc import webrtc_streamer, WebRtcMode, ClientSettings
 import av
 import numpy as np
@@ -23,9 +31,8 @@ def main():
     st.markdown("---")
     st.header("Patients Page")
 
-    # Clear the report file
-    report_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), "data", "analysis_outputs", "final_report.txt")
-    open(report_path, 'w').close()
+    # Define file paths at the top
+    file_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), "data", "analysis_outputs", "final_report.txt")
 
     if "logged_in" in st.session_state and st.session_state["logged_in"]:
         if st.session_state["role"] == "patient":
@@ -62,11 +69,37 @@ def main():
                             st.success(
                                 "Your symptoms have been successfully submitted!"
                             )
+                            
+                            # Run AI crew analysis
+                            with st.spinner("🤖 AI doctors are analyzing your symptoms..."):
+                                try:
+                                    run(symptoms.strip(), user_profile.get("name","Name not specified"), user_profile.get("ethnicity","Ethnicity not defined"), user_profile.get("sex", "Sex is not defined"))
+                                    
+                                    # Wait a bit for file to be written
+                                    import time
+                                    time.sleep(2)
+                                    
+                                    # Check if the file was created and has content
+                                    if os.path.exists(file_path):
+                                        with open(file_path, "r", encoding="utf-8") as f:
+                                            content = f.read().strip()
+                                        if content:
+                                            st.success("✅ AI analysis complete! Check the results below.")
+                                        else:
+                                            st.warning("⚠️ AI analysis completed but no results were generated.")
+                                    else:
+                                        st.error("❌ AI analysis failed - no output file created.")
+                                        
+                                except Exception as e:
+                                    st.error(f"❌ AI analysis failed: {e}")
+                                    return
+                            
+                            st.rerun()  # Refresh the page to show the new results
+                            
                         except Exception as e:
                             st.error(
                                 f"An error occurred while submitting your symptoms: {e}"
                             )
-                        run(symptoms.strip(), user_profile.get("name","Name not specified"), user_profile.get("ethnicity","Ethnicity not defined"), user_profile.get("sex", "Sex is not defined"))
                     else:
                         st.error(
                             "Failed to connect to the database. Please try again later."
@@ -77,19 +110,26 @@ def main():
             st.error("Access Denied: You do not have permission to view this page.")
     else:
         st.warning("Please log in to access the Patients page.")
-    # Specify the path to your text file
-    file_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), "data", "analysis_outputs", "final_report.txt")
+    # Display AI analysis results
+    st.markdown("---")
+    st.subheader("🤖 AI Doctor Analysis Results")
 
     try:
-        # Open the file and read its contents
-        with open(file_path, "r", encoding="utf-8") as file:
-            content = file.read()
-        # Display the contents
-        st.text_area("Doctor Recommendation and Potential Diagnoses", content, height=300)
-    except FileNotFoundError:
-        st.error("File not found. Please check the file path.")
+        # Check if file exists and has content
+        if os.path.exists(file_path):
+            with open(file_path, "r", encoding="utf-8") as file:
+                content = file.read().strip()
+            
+            if content:
+                st.text_area("Doctor Recommendation and Potential Diagnoses", content, height=300)
+            else:
+                st.info("📋 No analysis results yet. Submit your symptoms above to get AI doctor recommendations.")
+        else:
+            st.info("📋 No analysis results yet. Submit your symptoms above to get AI doctor recommendations.")
+            
     except Exception as e:
-        st.error(f"An error occurred: {e}")
+        st.error(f"An error occurred while reading the analysis: {e}")
+        st.info("📋 Submit your symptoms above to get AI doctor recommendations.")
 
 if __name__ == "__main__":
     main()
