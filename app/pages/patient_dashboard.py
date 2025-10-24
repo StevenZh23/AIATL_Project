@@ -73,11 +73,22 @@ def main():
                             # Run AI crew analysis
                             with st.spinner("🤖 AI doctors are analyzing your symptoms..."):
                                 try:
+                                    # Clear any existing files first
+                                    analysis_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), "data", "analysis_outputs")
+                                    for file in os.listdir(analysis_dir):
+                                        if file.endswith('.txt'):
+                                            os.remove(os.path.join(analysis_dir, file))
+                                    
+                                    st.write("🚀 Starting AI analysis...")
                                     run(symptoms.strip(), user_profile.get("name","Name not specified"), user_profile.get("ethnicity","Ethnicity not defined"), user_profile.get("sex", "Sex is not defined"))
                                     
                                     # Wait a bit for file to be written
                                     import time
-                                    time.sleep(2)
+                                    time.sleep(5)
+                                    
+                                    # Check what files were created
+                                    files_created = os.listdir(analysis_dir)
+                                    st.write(f"📁 Files created: {files_created}")
                                     
                                     # Check if the file was created and has content
                                     if os.path.exists(file_path):
@@ -87,11 +98,14 @@ def main():
                                             st.success("✅ AI analysis complete! Check the results below.")
                                         else:
                                             st.warning("⚠️ AI analysis completed but no results were generated.")
+                                            st.write(f"File exists but is empty. File size: {os.path.getsize(file_path)} bytes")
                                     else:
                                         st.error("❌ AI analysis failed - no output file created.")
                                         
                                 except Exception as e:
                                     st.error(f"❌ AI analysis failed: {e}")
+                                    import traceback
+                                    st.error(f"Full error: {traceback.format_exc()}")
                                     return
                             
                             st.rerun()  # Refresh the page to show the new results
@@ -115,6 +129,12 @@ def main():
     st.subheader("🤖 AI Doctor Analysis Results")
 
     try:
+        # Debug: Show what files exist in the analysis_outputs directory
+        analysis_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), "data", "analysis_outputs")
+        if os.path.exists(analysis_dir):
+            files = os.listdir(analysis_dir)
+            st.write(f"Debug: Files in analysis_outputs: {files}")
+        
         # Check if file exists and has content
         if os.path.exists(file_path):
             with open(file_path, "r", encoding="utf-8") as file:
