@@ -17,7 +17,7 @@ def main():
 
             with st.form("search_form"):
                username = st.text_input("Enter the patient's username:")
-               submit = st.form_submit_button("Search")
+               submit = st.form_submit_button("Search", key="doctor_search")
 
             if submit:
                 if username.strip() == "":

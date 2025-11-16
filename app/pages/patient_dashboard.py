@@ -42,7 +42,7 @@ def main():
 
             with st.form("symptom_form"):
                 symptoms = st.text_area("Describe your symptoms here:", height=200)
-                submit = st.form_submit_button("Submit Symptoms")
+                submit = st.form_submit_button("Submit Symptoms", key="submit_symptoms")
 
             if submit:
                 if symptoms.strip() == "":

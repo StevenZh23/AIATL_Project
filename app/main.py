@@ -29,7 +29,7 @@ def main():
     if "logged_in" in st.session_state and st.session_state["logged_in"]:
         st.sidebar.success(f"Logged in as: {st.session_state.get('username', 'Unknown')}")
         st.sidebar.write(f"Role: {st.session_state.get('role', 'Unknown').title()}")
-        if st.sidebar.button("Logout"):
+        if st.sidebar.button("Logout", key="sidebar_logout"):
             st.session_state.clear()
             st.rerun()
     else:

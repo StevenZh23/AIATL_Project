@@ -53,7 +53,7 @@ def main():
             doctor_pin = st.text_input("Doctor PIN", type="password")
             doctor_speciality = st.selectbox("Select your specialty:", DOCTOR_TYPES)
 
-        submit = st.form_submit_button("Register")
+        submit = st.form_submit_button("Register", key="register_submit")
 
     if submit:
         # Basic form validation
