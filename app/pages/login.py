@@ -12,10 +12,10 @@ def main():
     st.header("Login")
     st.write("Access your account by entering your credentials below.")
 
-    with st.form("login_form"):
+    with st.form("login_page_form"):
         username = st.text_input("Username")
         password = st.text_input("Password", type="password")
-        submit = st.form_submit_button("Login", key="login_submit")
+        submit = st.form_submit_button("Login")
 
     if submit:
         if not username or not password:
