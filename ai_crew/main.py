@@ -45,11 +45,11 @@ def run(symptoms, name, race, gender):
         if result:
             with open(final_report_file, 'w', encoding='utf-8') as f:
                 f.write(str(result))
-            print(f"✅ Analysis complete! Results saved to {final_report_file}")
+            print(f"Analysis complete! Results saved to {final_report_file}")
         else:
             with open(final_report_file, 'w', encoding='utf-8') as f:
                 f.write("Analysis completed but no results were generated.")
-            print("⚠️ Analysis completed but no results were generated.")
+            print("Analysis completed but no results were generated.")
         
         # For now, we'll create placeholder files for individual analyses
         # In a more sophisticated setup, you'd capture individual task outputs
@@ -63,7 +63,7 @@ def run(symptoms, name, race, gender):
             f.write(placeholder_text)
                 
     except Exception as e:
-        print(f"❌ Error writing files: {e}")
+        print(f"Error writing files: {e}")
         # Still write something to the final report
         final_report_file = os.path.join(analysis_dir, 'final_report.txt')
         with open(final_report_file, 'w', encoding='utf-8') as f:

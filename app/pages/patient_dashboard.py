@@ -71,7 +71,7 @@ def main():
                             )
                             
                             # Run AI crew analysis
-                            with st.spinner("🤖 AI doctors are analyzing your symptoms..."):
+                            with st.spinner("AI doctors are analyzing your symptoms..."):
                                 try:
                                     # Clear any existing files first
                                     analysis_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), "data", "analysis_outputs")
@@ -79,7 +79,7 @@ def main():
                                         if file.endswith('.txt'):
                                             os.remove(os.path.join(analysis_dir, file))
                                     
-                                    st.write("🚀 Starting AI analysis...")
+                                    st.write("Starting AI analysis...")
                                     run(symptoms.strip(), user_profile.get("name","Name not specified"), user_profile.get("ethnicity","Ethnicity not defined"), user_profile.get("sex", "Sex is not defined"))
                                     
                                     # Wait a bit for file to be written
@@ -88,22 +88,22 @@ def main():
                                     
                                     # Check what files were created
                                     files_created = os.listdir(analysis_dir)
-                                    st.write(f"📁 Files created: {files_created}")
+                                    st.write(f"Files created: {files_created}")
                                     
                                     # Check if the file was created and has content
                                     if os.path.exists(file_path):
                                         with open(file_path, "r", encoding="utf-8") as f:
                                             content = f.read().strip()
                                         if content:
-                                            st.success("✅ AI analysis complete! Check the results below.")
+                                            st.success("AI analysis complete! Check the results below.")
                                         else:
-                                            st.warning("⚠️ AI analysis completed but no results were generated.")
+                                            st.warning("AI analysis completed but no results were generated.")
                                             st.write(f"File exists but is empty. File size: {os.path.getsize(file_path)} bytes")
                                     else:
-                                        st.error("❌ AI analysis failed - no output file created.")
+                                        st.error("AI analysis failed - no output file created.")
                                         
                                 except Exception as e:
-                                    st.error(f"❌ AI analysis failed: {e}")
+                                    st.error(f"AI analysis failed: {e}")
                                     import traceback
                                     st.error(f"Full error: {traceback.format_exc()}")
                                     return
@@ -126,7 +126,7 @@ def main():
         st.warning("Please log in to access the Patients page.")
     # Display AI analysis results
     st.markdown("---")
-    st.subheader("🤖 AI Doctor Analysis Results")
+    st.subheader("AI Doctor Analysis Results")
 
     try:
         # Debug: Show what files exist in the analysis_outputs directory
@@ -143,13 +143,13 @@ def main():
             if content:
                 st.text_area("Doctor Recommendation and Potential Diagnoses", content, height=300)
             else:
-                st.info("📋 No analysis results yet. Submit your symptoms above to get AI doctor recommendations.")
+                st.info("No analysis results yet. Submit your symptoms above to get AI doctor recommendations.")
         else:
-            st.info("📋 No analysis results yet. Submit your symptoms above to get AI doctor recommendations.")
+            st.info("No analysis results yet. Submit your symptoms above to get AI doctor recommendations.")
             
     except Exception as e:
         st.error(f"An error occurred while reading the analysis: {e}")
-        st.info("📋 Submit your symptoms above to get AI doctor recommendations.")
+        st.info("Submit your symptoms above to get AI doctor recommendations.")
 
 if __name__ == "__main__":
     main()

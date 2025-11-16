@@ -16,24 +16,24 @@ def main():
     """Main application entry point with page routing"""
     st.set_page_config(
         page_title="AIATL - Healthcare Management System",
-        page_icon="🏥",
+        page_icon=None,
         layout="wide",
         initial_sidebar_state="expanded"
     )
     
     # Sidebar navigation
-    st.sidebar.title("🏥 AIATL Healthcare System")
+    st.sidebar.title("AIATL Healthcare System")
     st.sidebar.markdown("---")
     
     # Navigation menu
     page = st.sidebar.selectbox(
         "Navigate to:",
         [
-            "🏠 Home",
-            "🔐 Login", 
-            "📝 Register",
-            "👤 Patient Dashboard",
-            "👨‍⚕️ Doctor Dashboard"
+            "Home",
+            "Login", 
+            "Register",
+            "Patient Dashboard",
+            "Doctor Dashboard"
         ]
     )
     
@@ -43,22 +43,22 @@ def main():
     if "logged_in" in st.session_state and st.session_state["logged_in"]:
         st.sidebar.success(f"Logged in as: {st.session_state.get('username', 'Unknown')}")
         st.sidebar.write(f"Role: {st.session_state.get('role', 'Unknown').title()}")
-        if st.sidebar.button("🚪 Logout"):
+        if st.sidebar.button("Logout"):
             st.session_state.clear()
             st.rerun()
     else:
         st.sidebar.info("Please log in to access patient/doctor features")
     
     # Route to appropriate page
-    if page == "🏠 Home":
+    if page == "Home":
         home.main()
-    elif page == "🔐 Login":
+    elif page == "Login":
         login.main()
-    elif page == "📝 Register":
+    elif page == "Register":
         register.main()
-    elif page == "👤 Patient Dashboard":
+    elif page == "Patient Dashboard":
         patient_dashboard.main()
-    elif page == "👨‍⚕️ Doctor Dashboard":
+    elif page == "Doctor Dashboard":
         doctor_dashboard.main()
 
 if __name__ == "__main__":
