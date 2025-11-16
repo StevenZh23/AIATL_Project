@@ -21,22 +21,8 @@ def main():
         initial_sidebar_state="expanded"
     )
     
-    # Sidebar navigation
+    # Sidebar for login status
     st.sidebar.title("AIATL Healthcare System")
-    st.sidebar.markdown("---")
-    
-    # Navigation menu
-    page = st.sidebar.selectbox(
-        "Navigate to:",
-        [
-            "Home",
-            "Login", 
-            "Register",
-            "Patient Dashboard",
-            "Doctor Dashboard"
-        ]
-    )
-    
     st.sidebar.markdown("---")
     
     # Show login status
@@ -49,16 +35,29 @@ def main():
     else:
         st.sidebar.info("Please log in to access patient/doctor features")
     
-    # Route to appropriate page
-    if page == "Home":
+    # Top navigation tabs
+    tab1, tab2, tab3, tab4, tab5 = st.tabs([
+        "Home",
+        "Login",
+        "Register",
+        "Patient Dashboard",
+        "Doctor Dashboard"
+    ])
+    
+    # Route to appropriate page based on selected tab
+    with tab1:
         home.main()
-    elif page == "Login":
+    
+    with tab2:
         login.main()
-    elif page == "Register":
+    
+    with tab3:
         register.main()
-    elif page == "Patient Dashboard":
+    
+    with tab4:
         patient_dashboard.main()
-    elif page == "Doctor Dashboard":
+    
+    with tab5:
         doctor_dashboard.main()
 
 if __name__ == "__main__":
